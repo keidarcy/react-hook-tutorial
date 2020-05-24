@@ -15,17 +15,17 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 ### 内容
 
-#### 1.简单介绍
+#### 简单介绍
 
  - [source](https://github.com/xyyolab/react-hook-tutorial/tree/react-hook-tutorial-0)
- - [video]()
+ - [video](https://www.bilibili.com/video/BV1Ua4y1e74i/)
 
-#### 2.`useState`
+#### `useState`
 
  - [source](https://github.com/xyyolab/react-hook-tutorial/tree/react-hook-tutorial-1)
  - [video]()
 
-#### 3.`useEffect` Not yet
+#### `useEffect` Not yet
 
  - [source](https://github.com/xyyolab/react-hook-tutorial/tree/react-hook-tutorial-2)
  - [video]()
