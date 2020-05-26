@@ -9,23 +9,23 @@ or
 
 npm run start
 ```
+
 Runs the app in the development mode.<br />
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
 
 ### 内容
 
 #### 简单介绍
 
- - [source](https://github.com/xyyolab/react-hook-tutorial/tree/react-hook-tutorial-0)
- - [video](https://www.bilibili.com/video/BV1Ua4y1e74i/)
+- [source](https://github.com/xyyolab/react-hook-tutorial/tree/react-hook-tutorial-0)
+- [video](https://www.bilibili.com/video/BV1Ua4y1e74i/)
 
 #### `useState`
 
- - [source](https://github.com/xyyolab/react-hook-tutorial/tree/react-hook-tutorial-1)
- - [video]()
+- [source](https://github.com/xyyolab/react-hook-tutorial/tree/react-hook-tutorial-1)
+- [video]()
 
-#### `useEffect` Not yet
+#### `useEffect`
 
- - [source](https://github.com/xyyolab/react-hook-tutorial/tree/react-hook-tutorial-2)
- - [video]()
+- [source](https://github.com/xyyolab/react-hook-tutorial/tree/react-hook-tutorial-2)
+- [video]()
