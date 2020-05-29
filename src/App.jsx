@@ -1,55 +1,28 @@
-import React, { useState, useEffect } from 'react'
-import useFetch from './useFetch'
-import Axios from 'axios'
+import React, { useState, useEffect, useRef } from 'react'
+import Tool from './Tool'
+import useForm from './useForm'
+import Input from './Input'
 
-const useForm = (initialValue) => {
-  const [form, setForm] = useState(initialValue)
-
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value })
-  }
-
-  return [form, handleChange]
-}
-
-const Tool = () => {
-  useEffect(() => {
-    const focusOnUsername = (e) => {
-      if (e.keyCode === 191) {
-        document.querySelector('input[name="username"]').focus()
-      }
-    }
-    window.addEventListener('keydown', focusOnUsername)
-    return () => {
-      window.removeEventListener('keydown', focusOnUsername)
-    }
-  }, [])
-  // dependency array
-  return <h1>工具人</h1>
-}
-
-// const fetcher = (url) => fetch(url).then((res) => res.json())
-const fetcher = (url) => Axios.get(url).then((res) => res.data)
+const MyInput = React.forwardRef(Input)
 
 function App() {
   // const [form, setForm] = useState({ username: 'yoyo', password: '' })
   const [form, handleChange] = useForm({ username: 'yoyo', password: '' })
   const [showTool, setShowTool] = useState(false)
-  const [number, setNumber] = useState(1)
+  const nameRef = useRef()
 
-  // axios or fetch
+  useEffect(() => {
+    nameRef.current.focus()
+  }, [])
 
-  const { data: pokemon, isLoading } = useFetch(
-    `https://pokeapi.co/api/v2/pokemon/${number}/`,
-    fetcher
-  )
   return (
     <>
-      <input
+      <MyInput
         type="text"
         name="username"
         value={form.username}
         onChange={handleChange}
+        ref={nameRef}
       />
       <input
         onChange={handleChange}
@@ -60,18 +33,7 @@ function App() {
       <div>
         <button onClick={() => setShowTool(!showTool)}>召唤</button>
       </div>
-      <div>
-        <button onClick={() => setNumber(number + 1)}>召唤</button>
-      </div>
       {showTool && <Tool />}
-      {!isLoading ? (
-        <>
-          <h1>{pokemon?.name}</h1>
-          <img src={pokemon?.sprites?.front_default} alt="" />
-        </>
-      ) : (
-        <h1>我是谁</h1>
-      )}
     </>
   )
 }

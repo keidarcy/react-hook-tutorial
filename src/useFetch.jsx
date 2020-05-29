@@ -1,13 +1,24 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 
 const useFetch = (url, fetcher) => {
   const [state, setState] = useState({ data: null, isLoading: false })
+  const isMount = useRef(true)
+
+  useEffect(() => {
+    return () => {
+      isMount.current = false
+    }
+  }, [])
 
   useEffect(() => {
     const fn = async () => {
       setState({ data: null, isLoading: true })
       const data = await fetcher(url)
-      setState({ data, isLoading: false })
+      setTimeout(() => {
+        if (isMount.current) {
+          setState({ data, isLoading: false })
+        }
+      }, 2000)
     }
     fn()
   }, [fetcher, url])
