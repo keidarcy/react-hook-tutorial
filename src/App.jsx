@@ -10,8 +10,6 @@ import Tool from './Tool'
 import useForm from './useForm'
 import Input from './Input'
 
-const MyInput = React.forwardRef(Input)
-
 const Counter = React.memo(({ onClick, name }) => {
   let number = useRef(0)
   console.log('number is: ' + number.current++)
@@ -54,14 +52,20 @@ function App() {
 
   return (
     <>
-      <MyInput
+      <Input
         type="text"
         name="username"
         value={form.username}
         onChange={handleChange}
         ref={nameRef}
       />
-      <h1>{emoji}</h1>
+      <h1
+        onClick={() => {
+          nameRef.current.hey()
+        }}
+      >
+        {emoji}
+      </h1>
       <input
         onChange={handleChange}
         type="text"

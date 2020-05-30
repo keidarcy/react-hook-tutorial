@@ -1,6 +1,11 @@
-import React from 'react'
+import React, { useRef, useImperativeHandle } from 'react'
 
-const Input = ({ type, name, value, onChange }, ref) => {
+const Input = React.forwardRef(({ type, name, value, onChange }, ref) => {
+  const inputRef = useRef()
+  useImperativeHandle(ref, () => ({
+    focus: () => inputRef.current.focus(),
+    hey: () => alert('bilibili')
+  }))
   return (
     <>
       <input
@@ -8,10 +13,10 @@ const Input = ({ type, name, value, onChange }, ref) => {
         name={name}
         value={value}
         onChange={onChange}
-        ref={ref}
+        ref={inputRef}
       />
     </>
   )
-}
+})
 
 export default Input
