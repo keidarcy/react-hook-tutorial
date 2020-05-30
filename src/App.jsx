@@ -3,7 +3,8 @@ import React, {
   useEffect,
   useRef,
   useLayoutEffect,
-  useCallback
+  useCallback,
+  useMemo
 } from 'react'
 import Tool from './Tool'
 import useForm from './useForm'
@@ -43,6 +44,14 @@ function App() {
     setCounter((c) => c + 1)
   }, [setCounter])
 
+  const bigNum = useMemo(() => {
+    let num = 0
+    for (let i = 0; i < 800000000; i++) {
+      num++
+    }
+    return num
+  }, [])
+
   return (
     <>
       <MyInput
@@ -59,7 +68,9 @@ function App() {
         name="password"
         value={form.password}
       />
-      <h1>{counter}</h1>
+      <h1>
+        {counter} - {bigNum}
+      </h1>
       <Counter onClick={onClick} name={'增加'} />
       <div>
         <button onClick={() => setShowTool(!showTool)}>召唤</button>
