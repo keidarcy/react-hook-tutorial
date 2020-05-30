@@ -1,14 +1,17 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useDebugValue } from 'react'
 
 const useFetch = (url, fetcher) => {
   const [state, setState] = useState({ data: null, isLoading: false })
   const isMount = useRef(true)
+
+  useDebugValue(isMount)
 
   useEffect(() => {
     return () => {
       isMount.current = false
     }
   }, [])
+  useDebugValue(state)
 
   useEffect(() => {
     const fn = async () => {
@@ -22,6 +25,8 @@ const useFetch = (url, fetcher) => {
     }
     fn()
   }, [fetcher, url])
+  useDebugValue(isMount)
+
   return state
 }
 
