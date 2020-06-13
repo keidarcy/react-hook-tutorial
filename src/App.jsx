@@ -10,6 +10,7 @@ import React, {
 import Tool from './Tool'
 import useForm from './useForm'
 import Input from './Input'
+import MyContext from './MyContext'
 
 const Counter = React.memo(({ onClick, name }) => {
   let number = useRef(0)
@@ -47,6 +48,17 @@ const reducer = (state, action) => {
   }
 }
 
+const counterReducer = (state, action) => {
+  switch (action.type) {
+    case 'increment':
+      return { counter: state.counter + 1 }
+    case 'decrement':
+      return { counter: state.counter - 1 }
+    default:
+      break
+  }
+}
+
 function App() {
   // const [form, setForm] = useState({ username: 'yoyo', password: '' })
   const [form, handleChange] = useForm({ username: 'yoyo', password: '' })
@@ -58,6 +70,9 @@ function App() {
   const [{ todos, text }, dispatch] = useReducer(reducer, {
     todos: [],
     text: ''
+  })
+  const [{ counter }, counterDispatch] = useReducer(counterReducer, {
+    counter: 1
   })
   const nameRef = useRef()
 
@@ -84,62 +99,70 @@ function App() {
 
   return (
     <>
-      {/* <h1>{counter}</h1>
-      <button onClick={() => dispatch({ type: 'increment' })}>increment</button>
-      <button onClick={() => dispatch({ type: 'decrement' })}>decrement</button> */}
-      <form
-        onSubmit={(e) => {
-          e.preventDefault()
-          dispatch({ type: 'add', payload: text })
-        }}
-      >
-        <input
+      <MyContext.Provider value={{ counter, dispatch: counterDispatch }}>
+        <h1>{counter}</h1>
+        <button onClick={() => counterDispatch({ type: 'increment' })}>
+          increment
+        </button>
+        <button onClick={() => counterDispatch({ type: 'decrement' })}>
+          decrement
+        </button>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault()
+            dispatch({ type: 'add', payload: text })
+          }}
+        >
+          <input
+            type="text"
+            value={text}
+            onChange={(e) =>
+              dispatch({ type: 'input', payload: e.target.value })
+            }
+          />
+        </form>
+        <ul>
+          {todos.map((t, idx) => (
+            <li
+              key={idx}
+              style={{ textDecoration: t.completed ? 'line-through' : '' }}
+              onClick={() => {
+                dispatch({ type: 'complete', payload: idx })
+              }}
+            >
+              {t.thing}
+            </li>
+          ))}
+        </ul>
+        <Input
           type="text"
-          value={text}
-          onChange={(e) => dispatch({ type: 'input', payload: e.target.value })}
+          name="username"
+          value={form.username}
+          onChange={handleChange}
+          ref={nameRef}
         />
-      </form>
-      <ul>
-        {todos.map((t, idx) => (
-          <li
-            key={idx}
-            style={{ textDecoration: t.completed ? 'line-through' : '' }}
-            onClick={() => {
-              dispatch({ type: 'complete', payload: idx })
-            }}
-          >
-            {t.thing}
-          </li>
-        ))}
-      </ul>
-      <Input
-        type="text"
-        name="username"
-        value={form.username}
-        onChange={handleChange}
-        ref={nameRef}
-      />
-      <h1
-        onClick={() => {
-          nameRef.current.hey()
-        }}
-      >
-        {emoji}
-      </h1>
-      <input
-        onChange={handleChange}
-        type="text"
-        name="password"
-        value={form.password}
-      />
-      {/* <h1>
+        <h1
+          onClick={() => {
+            nameRef.current.hey()
+          }}
+        >
+          {emoji}
+        </h1>
+        <input
+          onChange={handleChange}
+          type="text"
+          name="password"
+          value={form.password}
+        />
+        {/* <h1>
         {counter} - {bigNum}
       </h1>
       <Counter onClick={onClick} name={'增加'} /> */}
-      <div>
-        <button onClick={() => setShowTool(!showTool)}>召唤</button>
-      </div>
-      {showTool && <Tool />}
+        <div>
+          <button onClick={() => setShowTool(!showTool)}>召唤</button>
+        </div>
+        {showTool && <Tool />}
+      </MyContext.Provider>
     </>
   )
 }

@@ -1,12 +1,14 @@
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useState, useRef, useContext } from 'react'
 import useFetch from './useFetch'
 import Axios from 'axios'
+import MyContext from './MyContext'
 
 // axios or fetch
 // const fetcher = (url) => fetch(url).then((res) => res.json())
 const fetcher = (url) => Axios.get(url).then((res) => res.data)
 
 const Tool = () => {
+  const { counter, dispatch } = useContext(MyContext)
   useEffect(() => {
     const focusOnUsername = (e) => {
       if (e.keyCode === 191) {
@@ -18,9 +20,9 @@ const Tool = () => {
       window.removeEventListener('keydown', focusOnUsername)
     }
   }, [])
-  const [number, setNumber] = useState(1)
+  // const [number, setNumber] = useState(1)
   const { data: pokemon, isLoading } = useFetch(
-    `https://pokeapi.co/api/v2/pokemon/${number}/`,
+    `https://pokeapi.co/api/v2/pokemon/${counter}/`,
     fetcher
   )
 
@@ -32,8 +34,11 @@ const Tool = () => {
       {!isLoading ? (
         <>
           <h1>{pokemon?.name}</h1>
+          {/* <h3>{password}</h3> */}
           <div>
-            <button onClick={() => setNumber(number + 1)}>召唤</button>
+            <button onClick={() => dispatch({ type: 'increment' })}>
+              召唤
+            </button>
           </div>
           <img src={pokemon?.sprites?.front_default} alt="" />
           <input
